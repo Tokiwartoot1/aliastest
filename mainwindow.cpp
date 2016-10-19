@@ -1,37 +1,28 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <QString>
-#include <QVector>
+
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
-using namespace std;
-QVector <QString> v;
-QString s;
-string s2;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QObject::connect(ui->pushButton,SIGNAL(clicked(bool)),this,SLOT(setWord()));
+    QObject::connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(setWord()));
 
+    QFile file("input.txt");
+    if (file.open(QIODevice::ReadOnly)) {
+        QTextStream stream(&file);
 
-QFile file ("input.txt");
-if (file.open(QIODevice::ReadOnly))
-{
-    QTextStream stream(&file);
+        while (!stream.atEnd()) {
+            QString s = stream.readLine();
+            qDebug() << s;
 
-    while (!stream.atEnd())
-    {
-        s = stream.readLine();
-        v.push_back(s);
-        qDebug() << s;
+            m_words.push_back(s);
+        }
     }
-}
 }
 
 MainWindow::~MainWindow()
@@ -41,7 +32,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::setWord()
 {
+    int idx = qrand() % m_words.size();
 
-
-    ui->label->setText(s);
+    ui->label->setText(m_words[idx]);
 }

@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QString>
+#include <QVector>
 
 namespace Ui {
 class MainWindow;
@@ -15,10 +17,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private:
-    Ui::MainWindow *ui;
 private slots:
     void setWord();
+
+private:    
+    Ui::MainWindow *ui;
+    QVector<QString> m_words;
 };
 
 
