@@ -32,6 +32,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::setWord()
 {
+    if (m_words.isEmpty())
+        return;
+
     int idx = qrand() % m_words.size();
 
     ui->label->setText(m_words[idx]);
